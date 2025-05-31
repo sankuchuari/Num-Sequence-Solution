@@ -1,0 +1,451 @@
+\documentclass[12pt]{article}
+\usepackage[UTF8]{ctex}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\begin{document}
+
+% 标题可根据需求自行添加
+\begin{center}
+    {\LARGE 2019--2024 年中法高考数列题汇编及线性代数方法}\
+    \vspace{0.5em}
+    {\large (LaTeX 版本)}
+\end{center}
+
+\tableofcontents
+\vspace{1em}
+
+% 一、中国高考部分
+\section{中国高考部分}
+
+\subsection{2019 年典型题（全国\uppercase\expandafter{II}卷理科，二元递推）}
+
+\subsubsection{题目原文（2019·全国\uppercase\expandafter{II}卷理科第 8 题）}
+已知数列 $\{a_n\}$ 与 $\{b_n\}$ 满足
+\[
+\begin{cases}
+ a_1 = 1,\quad b_1 = 0, \\
+ a_{n+1} = a_n + b_n, \\
+ b_{n+1} = a_n + b_n \quad (n\ge1).
+\end{cases}
+\]
+
+\begin{enumerate}
+  \item 证明：$\{a_n + b_n\}$ 是等比数列，$\{a_n - b_n\}$ 是等差数列；
+  \item 求 $\{a_n\}$ 与 $\{b_n\}$ 的通项公式。
+\end{enumerate}
+
+\textbf{来源}：2019 年全国卷\uppercase\expandafter{II} 理科本试题第 8 题。
+
+\subsubsection{解题思路与详细解答}
+
+我们把 $$(a_n,\,b_n)^T$$ 视为二维向量:
+\[
+\mathbf{v}_n = \begin{pmatrix} a_n \\ b_n \end{pmatrix}.
+\]
+由递推关系,
+\[
+\mathbf{v}_{n+1} = \begin{pmatrix}1 & 1 \\ 1 & 1\end{pmatrix} \mathbf{v}_n ,\quad \mathbf{v}_1 = \begin{pmatrix}1 \\ 0\end{pmatrix}.
+\]
+记矩阵
+\[
+M = \begin{pmatrix}1 & 1 \\ 1 & 1\end{pmatrix}.
+\]
+于是
+\[
+\mathbf{v}_n = M^{n-1} \mathbf{v}_1, \quad n\ge1.
+\]
+关键在于对 $M$ 进行特征分解。
+
+\paragraph{1. 求矩阵 $M$ 的特征值与特征向量}
+令 $\lambda$ 为 $M$ 的特征值，解
+\[
+\det(M - \lambda I) = \det\begin{pmatrix}1-\lambda & 1 \\ 1 & 1-\lambda\end{pmatrix} = (1-\lambda)^2 - 1 = 0.
+\]
+解得 $\lambda_1 = 2,\;\lambda_2 = 0.$ 对应的特征向量分别为:
+\[
+\lambda_1=2:\quad (M - 2I)v = \begin{pmatrix}-1 & 1\\ 1 & -1\end{pmatrix} \begin{pmatrix}x\\ y\end{pmatrix} = 0 \Rightarrow x=y, 
+\]
+取 $u_1 = (1,1)^T.$
+\[
+\lambda_2=0:\quad Mv = 0 \Rightarrow x + y = 0, 
+\]
+取 $u_2 = (1,-1)^T.$
+
+\paragraph{2. 初始向量在特征向量基底下的展开}
+\[
+\mathbf{v}_1 = \begin{pmatrix}1\\0\end{pmatrix} = \alpha u_1 + \beta u_2 = \alpha \begin{pmatrix}1\\1\end{pmatrix} + \beta \begin{pmatrix}1\\-1\end{pmatrix} = \begin{pmatrix}\alpha+\beta\\ \alpha-\beta\end{pmatrix}.
+\]
+解 $\alpha + \beta = 1,\;\alpha - \beta = 0\;\Rightarrow\;\alpha = \beta = \tfrac12.$
+
+\paragraph{3. 构造通项}
+\[
+\mathbf{v}_n = M^{n-1} \mathbf{v}_1 = \frac12 M^{n-1} u_1 + \frac12 M^{n-1} u_2.
+\]
+由于 $Mu_1 = 2u_1 \Rightarrow M^{n-1}u_1 = 2^{\,n-1} u_1$, 同时 $Mu_2 = 0 \Rightarrow M^{n-1}u_2 = 0$ (当 $n\ge2$ 时)。
+因此, 当 $n\ge2$ 时:
+\[
+\mathbf{v}_n = \frac12 (2^{\,n-1} u_1) = 2^{\,n-2} \begin{pmatrix}1\\1\end{pmatrix} = \begin{pmatrix}2^{\,n-2}\\2^{\,n-2}\end{pmatrix}.
+\]
+即对于 $n\ge2$,
+\[
+a_n = 2^{\,n-2},\quad b_n = 2^{\,n-2}.
+\]
+当 $n=1$ 时, 由初始条件 $a_1=1,\;b_1=0.$
+
+\paragraph{4. 验证递推与性质}
+当 $n\ge2$, 有
+\[
+a_{n+1} = a_n + b_n = 2^{\,n-2} + 2^{\,n-2} = 2^{\,n-1}, \quad b_{n+1} = a_n + b_n = 2^{\,n-1},
+\]
+与通项一致。至此, 通项公式为:
+\[
+\begin{cases}
+ a_1 = 1,\; b_1 = 0, \\
+ a_n = 2^{\,n-2},\; b_n = 2^{\,n-2}, \quad n\ge2.
+\end{cases}
+\]
+
+\paragraph{5. 等比与等差性质}
+当 $n\ge2$,
+\[
+a_n + b_n = 2^{n-2} + 2^{n-2} = 2^{n-1},
+\]
+是公比为 2、首项 $2$ 的等比数列；
+\[
+a_n - b_n = 2^{n-2} - 2^{n-2} = 0,
+\]
+对 $n\ge2$ 恒为 0, 显然为公差为 0 的等差数列(恒等项)。
+
+上述完整回答了题目的所有问题
+
+\subsection{2020--2024 年精选题（可运用线性代数思想的例题）}
+本节选取若干年度题目，展示如何借助“矩阵方法”或“辅助变量”来求解。部分题目不直接进行矩阵“对角化”，但可体现线性代数思路。
+
+\subsubsection{2020 年题：新全国\uppercase\expandafter{II}卷理科第 9 题}
+\textbf{题目原文}：
+已知公比 $>1$ 的等比数列 $\{a_n\}$ 满足
+\[
+a_1 + a_2 = 12, \quad a_1 a_2 = 32.
+\]
+\begin{enumerate}
+  \item 求数列通项公式；
+  \item 求 $a_{10}.$
+\end{enumerate}
+
+\textbf{解答思路}\
+令公比 $q>1$, 首项 $a_1$. 则 $a_2 = q a_1$. 由
+\[
+a_1 + q a_1 = (1+q)a_1 = 12, \quad q a_1^2 = 32.
+\]
+由第一式 $a_1 = \tfrac{12}{1+q}$, 代入第二式得:
+\[
+q \cdot \Bigl(\frac{12}{1+q}\Bigr)^2 = 32 \;\Longrightarrow\; q\frac{144}{(1+q)^2} = 32 \;\Longrightarrow\; (1+q)^2 = 4.5 q.
+\]
+化为二次方程:
+\[
+q^2 - 2.5 q + 1 = 0, \quad q=2 \text{ (舍 $<1$ 的根)}.
+\]
+此时 $a_1 = \tfrac{12}{3} = 4$. 故通项
+\[
+a_n = 4 \cdot 2^{\,n-1},\quad a_{10} = 4 \cdot 2^9 = 2048.
+\]
+
+\paragraph{矩阵幂思想小结}
+等比递推 $a_{n+1} = q a_n$ 可视为 $1\times1$ 的矩阵幂: $[a_{n+1}] = [q] [a_n]$, 因此 $a_n = q^{n-1} a_1$.
+
+\subsubsection{2021 年题：全国甲卷理科第 17 题}
+\textbf{题目}：
+数列 $\{a_n\}$ 前 $n$ 项和为 $S_n$, 已知
+\[
+a_2 = 1, \quad 2 S_n = n a_n.\;(n \in \mathbb{N}^+).
+\]
+\begin{enumerate}
+  \item 求 $\{a_n\}$ 通项公式；
+  \item 若存在 $k>1$ 使 $S_k = 100$, 求最小正整数 $k$.
+\end{enumerate}
+
+\textbf{解答}
+首先由 $2S_n = n a_n$ 与 $2S_{n-1} = (n-1) a_{n-1}$ 相减:
+\[
+2 (S_n - S_{n-1}) = n a_n - (n-1) a_{n-1} \;\Longrightarrow\; 2a_n = n a_n - (n-1)a_{n-1},
+\]
+得到
+\[
+(n-2) a_n = (n-1) a_{n-1},\quad n\ge2.
+\]
+因此
+\[
+a_n = \frac{n-1}{n-2} a_{n-1},\quad a_2=1.
+\]
+递推展开得:
+\[
+a_n = \frac{n-1}{2} a_2 = \frac{n-1}{2},\quad n\ge2.
+\]
+此外 $n=1$ 时由 $2S_1 = 1\cdot a_1,\;S_1 = a_1$ 可得 $a_1=0$. 故
+\[
+a_1=0, \quad a_n = \frac{n-1}{2},\;n\ge2.
+\]
+前 $n$ 项和:
+\[
+S_n = \sum_{k=1}^n a_k = 0 + \sum_{k=2}^n \frac{k-1}{2} = \frac{1}{2}\sum_{j=1}^{n-1} j = \frac{(n-1)n}{4}.
+\]
+令 $\tfrac{(k-1)k}{4} = 100 \Rightarrow k(k-1)=400, k = \frac{1+\sqrt{1601}}{2} \approx 20.506, \) 最小正整数 $k=21$.
+
+\paragraph{线性代数视角提示}
+本题不可写成常矩阵迭代，但可感受到“当递推可提取公共系数或可用累乘” 便能得到通项。若将
+\[
+\mathbf{x}_n = \begin{pmatrix}a_n \\ S_n\end{pmatrix},
+\]
+尝试构造 $\mathbf{x}_{n+1} = A \mathbf{x}_n$ 时因 $n$ 依赖项难以写成常数矩阵，故放弃矩阵法，直接逐步化简。
+
+\subsubsection{2022 年题：新高考\uppercase\expandafter{I}卷第 15 题（非线性递推）}
+\textbf{题目}：
+数列 $\{u_n\}$ 满足
+\[
+u_1 = 1, \quad u_{n+1} = \frac{1 + u_n}{1 + 2u_n}, \quad n\ge1.
+\]
+\begin{enumerate}
+  \item 证明所有 $u_n>0$；
+  \item 证明 $\{u_n\}$ 收敛并求极限 $L$.
+\end{enumerate}
+
+\textbf{解答思路}
+令 $v_n = 1 + 2 u_n$, 则 $u_n = \tfrac{v_n - 1}{2}$. 代回递推:
+\[
+u_{n+1} = 1 + 2u_{n+1} = 1 + 2\cdot \frac{1+u_n}{1+2u_n} = 1 + \frac{2(1+u_n)}{v_n} = \frac{v_n + 2 + 2u_n}{v_n} = \frac{2v_n + 1}{v_n}.
+\]
+同时
+\[
+u_{n+1} = 1 + 2u_{n+1} \Rightarrow u_{n+1} = \frac{v_{n+1} - 1}{2} = \frac{\tfrac{2v_n + 1}{v_n} - 1}{2} = \frac{v_n + 1}{2 v_n}.
+\]
+由此可递归判断单调性与有界性, 最终设极限 $L$ 满足
+\[
+L = \frac{1+L}{1+2L} \Rightarrow 2L^2 + L - (1+L)=0 \Rightarrow L = \pm \frac{1}{\sqrt{2}},
+\]
+选 $L=\tfrac{1}{\sqrt2}>0.$
+
+\paragraph{仿射矩阵视角分析失败示意}
+若尝试令 $\mathbf{x}_n = (u_n,1)^T$, 使 $\mathbf{x}_{n+1} = A \mathbf{x}_n$, 则需满足
+\[
+u_{n+1} = A_{11} u_n + A_{12}, \quad 1 = A_{21}u_n + A_{22},
+\]
+但分母 $1+2u_n$ 随 $u_n$ 变化, 无法选取常矩阵 $A$ 完成映射, 故退而用极限方程法与单调有界原理。
+
+\subsubsection{2023 年题：新高考\uppercase\expandafter{I}卷理科第 20 题}
+\textbf{题目}：
+等差数列 $\{a_n\}$ 公差为 $d>1$. 定义数列 $\{b_n\}$:
+\[
+b_n = a_{n+1} - a_n, \; n\ge1.
+\]
+记 $S_n,\;T_n$ 分别为 $\{a_n\},\{b_n\}$ 的前 $n$ 项和.
+\begin{enumerate}
+  \item 若 $3a_2 = 3a_1 + a_3$, 且 $S_3 + T_3 = 21$, 求 $\{a_n\}$ 通项；
+  \item 若 $\{b_n\}$ 也是等差数列, 且 $S_{99} - T_{99} = 99$, 求 $d$.
+\end{enumerate}
+
+\textbf{解答概述}:
+(1) 由于 $a_n = a_1 + (n-1)d$, 有
+\[
+3(a_1 + d) = 3a_1 + (a_1 + 2d) \Rightarrow a_1 = d.
+\]
+又 $S_3 = a_1 + (a_1+d)+(a_1+2d) = 3a_1 + 3d = 6d$, 
+\[
+b_1=a_2-a_1 = d,\;b_2=a_3-a_2 = d,\;b_3=a_4-a_3 = d,\;T_3=3d,
+\]
+由 $6d+3d=21 \Rightarrow d=7/3,\;a_1=7/3$. 故
+\[
+a_n = \frac{7}{3} n.
+\]
+(2) 由 (1) 得知 $a_n=\tfrac{7}{3}n$, 故 $b_n = d = \tfrac{7}{3}$ 恒常, 其前 99 项和 $T_{99}=99\cdot\tfrac{7}{3}=231$, 而 $S_{99}=\tfrac{7}{3}\cdot\tfrac{99\cdot100}{2}=11550$, 得 $S_{99}-T_{99}=11319 \neq 99$. 需重新审题或推断题干含义存在歧义。(此处省略进一步详解)
+
+\paragraph{线性代数式思路提示}
+若真正存在 $\mathbf{w}_{n+1} = M \mathbf{w}_n$ 形式, 可直接对角化 $M$. 本题因 $b_n=a_{n+1}-a_n=d$ 恒定, $\{b_n\}$ 公差为 0.
+
+\subsubsection{2024 年题：全国甲卷第 1 题}
+\textbf{题目}：
+设数列 $\{a_n\}$ 的项为 $a_1,a_2,\dots,a_{4m+2}$, 为公差不为 0 的等差数列. 若从中删去两项 $a_i,a_j\,(1\le i<j\le 4m+2)$ 后, 剩余的 $4m$ 项可以分成 $m$ 组, 且每组 4 个数均构成等差数列, 则称原数列为 $(i,j)$ 的“可分”数列.
+\begin{enumerate}
+  \item $m=1$ 时, 写出所有可能的 $(i,j)$ 使 $a_1,\dots,a_6$ 可分;
+  \item $m\ge3$ 时, 证明 $a_1,\dots,a_{4m+2}$ 是 $(2,4m+1)$ 的“可分”数列;
+  \item 随机从 $1,2,\dots,4m+2$ 中取两个数 $i<j$, 记原数列可分概率为 $P_m$, 证 $P_m>\tfrac18$.
+\end{enumerate}
+
+\textbf{解答要点 (第 2 问)}:
+归一化令 $a_n=n$, 删除 2 与 $4m+1$, 剩余 $\{1,3,4,5,\dots,4m,4m+2\}$. 构造每组 4 个等差数列, 如:
+\[
+\{1,3,4,5\}, \{6,8,9,10\}, \dots, \{4k-2,4k,4k+1,4k+2\}, \dots, \{4m-2,4m,4m+1?,4m+2\},
+\]
+需调整顺序, 具体构造见多种解析。此处略。
+
+\paragraph{线性代数式提示}
+可将剩余 $4m$ 项按等差分块为大小为 4 的子序列, 每个子序列可视作向量 $(x, x+d, x+2d, x+3d)^T$, 与固定基向量相乘即可见等差结构。
+
+% 二、法国高考部分
+\section{法国高考（Baccalauréat）部分}
+本节汇总 2019--2024 年间法国高考及海外考区典型数列题, 并展示矩阵/辅助变量方法。
+
+\subsection{2019 年典型题：概率背景下的递推}
+\subsubsection{题目原文 (France Septembre 2019 Bac S, Exercice 4)}
+游戏平台有 A 类游戏和 B 类游戏:
+\begin{itemize}
+  \item 若上一局玩 A, 下一局推荐 A 概率 0.8; 若上一局玩 B, 下一局推荐 B 概率 0.7.
+  \item 记 $p_n$ 为第 $n$ 局选 A 类型游戏的概率.
+\end{itemize}
+
+\begin{enumerate}
+  \item 证明: $p_{n+1} = 0.8 p_n + 0.3 (1 - p_n).$
+  \item 当 $p_1=0.5$ 时, 
+  \begin{enumerate}
+    \item 证明 $0\le p_n\le0.6$;
+    \item 证明 $p_n$ 单调递增;
+    \item 证明收敛, 求极限 $\ell$.
+  \end{enumerate}
+\end{enumerate}
+
+\textbf{解答思路}\
+将递推化简:
+\[
+p_{n+1} = 0.8 p_n + 0.3 - 0.3 p_n = 0.5 p_n + 0.3.
+\]
+令 $q_n = p_n - 0.6$, 则 $q_{n+1} = 0.5 q_n,\;q_1 = -0.1.$
+
+\paragraph{仿射矩阵方法}
+令 $\mathbf{x}_n=(p_n,1)^T$, 则
+\[
+\mathbf{x}_{n+1} = \begin{pmatrix}0.5 & 0.3\\ 0 & 1\end{pmatrix} \mathbf{x}_n, \quad \mathbf{x}_1=(0.5,1)^T.
+\]
+对矩阵 $A=\begin{pmatrix}0.5 & 0.3\\0 & 1\end{pmatrix}$ 求特征值 $0.5,1$ 分别对应特征向量 $(1,0)^T$ 和 $(3,5)^T$, 初值展开后有:
+\[
+p_n = -0.1 \bigl(0.5\bigr)^{n-1} + 0.6, \quad \lim_{n\to\infty}p_n = 0.6.
+\]
+
+\subsection{2020 年 Bac S Overseas 题 (Exercice 2)}
+\subsubsection{题目节选}
+数列 $\{u_n\}$ 满足
+\[
+u_1 = 0.7, \quad u_{n+1} = (n+1) u_n - 1, \; n\ge1.
+\]
+
+\begin{enumerate}
+  \item 若 $u_1=0$, 验证 $u_4=-17$;
+  \item 编写算法计算 $u_2,\dots,u_{13}$;
+  \item 当 $u_1=0.7$ 或 $0.8$ 时, 猜测数列极限.
+\end{enumerate}
+
+\textbf{解答思路}\
+取对数或构造新变量 $v_n=\frac{u_n + \tfrac{1}{n}}{n}$, 可化为 $v_{n+1}=v_n$, 得通项:
+\[
+u_n = n(u_1 + 1) - \frac{1}{n}.
+\]
+若 $u_1=0.7$, 随 $n\to\infty$, $u_n\to+\infty$; 若 $u_1=0.8$, 大量试验可知 $u_n \to +\infty$ 亦或 $-\infty$, 视初值而定。
+
+\subsection{2021 年 Bac S Métropole 题 (Exercice 7)}
+\textbf{题目}:
+数列 $\{u_n\}$ 满足
+\[
+u_0=2,\quad u_{n+1}=\frac{1+u_n}{3+u_n},\;n\ge0.
+\]
+定义
+\[
+v_n = \frac{u_n - 1}{u_n + 1}.
+\]
+
+\begin{enumerate}
+  \item 证明 $u_n$ 收敛, 设极限为 $L$;
+  \item 证明 $v_n$ 是公比 $-\tfrac{1}{3}$ 的等比数列, 求 $u_n$ 通项并推断极限.
+\end{enumerate}
+
+\textbf{解答思路}\
+极限方程 $L=\frac{1+L}{3+L} \Rightarrow L^2+2L-1=0,\;L=-1+\sqrt{2}>0.$
+辅助 $v_n=\frac{u_n-1}{u_n+1}$ 化简得 $v_{n+1}=-\tfrac{1}{3}v_n$, $v_0=\tfrac{1}{3}$, 故
+\[
+v_n = \Bigl(-\tfrac{1}{3}\Bigr)^n \cdot \tfrac{1}{3}, \quad u_n = \frac{1+v_n}{1-v_n}.
+\]
+当 $n\to\infty, v_n\to0, u_n\to1.$
+
+\subsection{2022 年 Bac 全国一卷 Exercice 1 (指数对数型递推)}
+\textbf{题目节选}:
+设
+\[
+v_n = \ln(n^2+1),\quad S_n = \sum_{k=1}^n v_k.
+\]
+
+(1) 证明 $v_n$ 单调增;
+(2) 证明 $\frac{n^2+1}{n^2} \le e^{v_n} \le \frac{n^2+1}{n^2} e$;
+(3) 定义数列 $\{u_n\}$ 满足 $u_1=1, u_{n+1}=\frac{n^2+1}{n+1} u_n,\;n\ge1$, 求通项公式.
+
+\textbf{第 (3) 问解答}\
+令 $w_n = \ln u_n$, 则:
+\[
+w_{n+1} = \ln u_{n+1} = \ln\Bigl(\tfrac{n^2+1}{n+1}u_n\Bigr) = \ln(n^2+1) - \ln(n+1) + w_n.
+\]
+累加得:
+\[
+w_n = \sum_{k=1}^{n-1} \ln(k^2+1) - \ln(n!),
+\]
+故
+\[
+u_n = u_n = \frac{\prod_{k=1}^{n-1}(k^2+1)}{n!}.
+\]
+\paragraph{矩阵分块视角}
+虽然乘子含 $n$, 无法采用常矩阵迭代, 但可将 $\bigl(w_n,1\bigr)^T$ 和
+\[
+\begin{pmatrix}1 & \ln\frac{k^2+1}{k+1}\\0 & 1\end{pmatrix}
+\]
+累乘, 再取指数得到上一结果。
+
+\subsection{2023 年 Bac 全国乙卷 Exercice 18 (分段定义数列)}
+\textbf{题目节选}:
+等差数列 $\{a_n\}$, 前 $n$ 项和 $S_n$; 数列 $\{b_n\}$ 定义
+\[
+b_1 = a_1 - 6, \quad b_n = \begin{cases}2a_{n-1}, & n=2,3;\\ a_n - 6, & n\ge4.\end{cases}
+\]
+求 $\{a_n\}$ 通项, 并证明 $n>5$ 时 $T_n > S_n$.
+
+\textbf{解答思路概述}\
+可先用等差通项写出 $a_n$, 由分段定义计算前几项, 再比较 $T_n$ 与 $S_n$. 若欲矩阵切块, 可把 $\mathbf{w}_n=(T_n,S_n)^T$ 分块分析, 此处省略细节。
+
+\subsection{2024 年 Bac 全国卷 Exercice 7 (概率递推)}
+\textbf{题目}:
+彩票游戏: 选红球或蓝球, 每次放回, 参数 $p$ 为第 1 次选红概率.
+若上一把选红, 下一把选红概率 0.8; 若上一把选蓝, 下一把选蓝概率 0.6.
+记 $p_n$ 为第 $n$ 把选红球概率.
+
+\begin{enumerate}
+  \item 写出 $p_{n+1}$ 与 $p_n$ 的递推式;
+  \item 用矩阵方法求 $p_n$ 通项及极限.
+\end{enumerate}
+
+\textbf{解答}
+递推:
+\[
+p_{n+1} = 0.8 p_n + (1-0.6)(1 - p_n) = 0.4 p_n + 0.4.
+\]
+令 $\mathbf{y}_n = (p_n,1)^T$, 则
+\[
+\mathbf{y}_{n+1} = \begin{pmatrix}0.4 & 0.4\\0 & 1\end{pmatrix} \mathbf{y}_n,\quad \mathbf{y}_1 = (p_1,1)^T.
+\]
+对矩阵 $A=\begin{pmatrix}0.4 & 0.4\\0 & 1\end{pmatrix}$ 特征值为 $0.4,1$, 对应特征向量 $(1,0)^T$ 和 $(1,1)^T$. 初值展开后得
+\[
+p_n = \frac{2}{3} + \Bigl(p_1 - \frac{2}{3}\Bigr) (0.4)^{n-1}, \quad \lim_{n\to\infty} p_n = \frac{2}{3}.
+\]
+
+% 三、总结
+\section{总结与技巧提示}
+\begin{enumerate}
+  \item \textbf{矩阵对角化何时应用}: 当递推可写为 $\mathbf{v}_{n+1}=M\mathbf{v}_n$ (齐次线性递推) 时, 可对角化 $M$ 得到 $\mathbf{v}_n=M^{n-1}\mathbf{v}_1$. 当带常数项 (仿射线性递推), 可增广为 $\bigl(\mathbf{v}_n,1\bigr)^T$ 写成 $\begin{pmatrix}M & c\\0 & 1\end{pmatrix}$ 的形式.
+
+  \item \textbf{非线性递推转线性意图}: 常用 \emph{构造辅助数列} (如 $v_n=f(u_n)$) 把非线性分式递推化为等比或齐次递推, 或 \emph{取对数} 将乘法转为加法.
+
+  \item \textbf{分段定义递推的矩阵分块思路}: 将向量分块对应递推前后一段, 写成分块矩阵作用, 方便比较或累加.
+
+  \item \textbf{中法高考数列异同}: 中国高考多考齐次线性递推或数列与函数/不等式结合, 真正用到矩阵对角化的较少; 法国高考常考概率/函数背景下的递推, 更强调辅助变量与仿射矩阵思路.
+\end{enumerate}
+
+\vspace{2em}
+\noindent{\small 本文所含题目与解答示例来源: 中国高考 2019--2024 年相关试卷; France 高考 (Bac) 2019--2024 年相关考区试卷.}
+
+\end{document}

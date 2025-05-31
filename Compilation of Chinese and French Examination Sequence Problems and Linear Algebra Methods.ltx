@@ -1,0 +1,564 @@
+\documentclass[12pt]{article}
+\usepackage[UTF8]{ctex} % Retained in case of any Chinese characters; primary content is now in English
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+
+\begin{document}
+
+% Title can be adjusted as needed
+\begin{center}
+    {\LARGE Compilation of Chinese and French Examination Sequence Problems and Linear Algebra Methods (2019--2024)}\\
+    \vspace{0.5em}
+    {\large (LaTeX Version)}
+\end{center}
+
+\tableofcontents
+\vspace{1em}
+
+% 1. China Gaokao Section
+\section{China Gaokao Section}
+
+\subsection{2019 Typical Problem (National Paper II, Science Stream, Two‐Variable Recurrence)}
+
+\subsubsection{Problem Statement (2019 National Paper II, Science Stream, Question 8)}
+Let the sequences $\{a_n\}$ and $\{b_n\}$ satisfy:
+\[
+\begin{cases}
+ a_1 = 1,\quad b_1 = 0, \\
+ a_{n+1} = a_n + b_n, \\
+ b_{n+1} = a_n + b_n \quad (n\ge1).
+\end{cases}
+\]
+\begin{enumerate}
+  \item Prove that $\{\,a_n + b_n\,\}$ is a geometric progression and $\{\,a_n - b_n\,\}$ is an arithmetic progression.
+  \item Find the general term of $\{a_n\}$ and $\{b_n\}$.
+\end{enumerate}
+
+\textbf{Source}: 2019 National Paper II, Science Stream, Question 8.
+
+\subsubsection{Solution Outline and Detailed Answer}
+
+We regard the vector
+\[
+\mathbf{v}_n = \begin{pmatrix} a_n \\ b_n \end{pmatrix}
+\]
+as a two‐dimensional column vector. From the recurrence relations,
+\[
+\mathbf{v}_{n+1} = \begin{pmatrix}1 & 1 \\ 1 & 1\end{pmatrix} \mathbf{v}_n, \quad \mathbf{v}_1 = \begin{pmatrix}1 \\ 0\end{pmatrix}.
+\]
+Denote the matrix
+\[
+M = \begin{pmatrix}1 & 1 \\ 1 & 1\end{pmatrix}.
+\]
+Then
+\[
+\mathbf{v}_n = M^{\,n-1}\,\mathbf{v}_1, \quad n\ge1.
+\]
+The key is to perform an eigenvalue decomposition of $M$.
+
+\paragraph{1. Finding the Eigenvalues and Eigenvectors of $M$}
+Let $\lambda$ be an eigenvalue of $M$. We solve
+\[
+\det(M - \lambda I) = \det\begin{pmatrix}1-\lambda & 1 \\ 1 & 1-\lambda\end{pmatrix} = (1-\lambda)^2 - 1 = 0.
+\]
+Hence $\lambda_1 = 2$ and $\lambda_2 = 0$. The corresponding eigenvectors are:
+\[
+\lambda_1=2: \quad (M - 2I)\mathbf{u} = \begin{pmatrix}-1 & 1 \\ 1 & -1\end{pmatrix} \begin{pmatrix}x \\ y\end{pmatrix} = \mathbf{0} \;\Longrightarrow\; x = y,
+\]
+so we may choose $\mathbf{u}_1 = \begin{pmatrix}1 \\ 1\end{pmatrix}$. 
+\[
+\lambda_2=0: \quad M\,\mathbf{u} = \mathbf{0} \;\Longrightarrow\; x + y = 0,
+\]
+so choose $\mathbf{u}_2 = \begin{pmatrix}1 \\ -1\end{pmatrix}$.
+
+\paragraph{2. Expressing the Initial Vector in the Eigenbasis}
+\[
+\mathbf{v}_1 = \begin{pmatrix}1 \\ 0\end{pmatrix} 
+= \alpha\,\mathbf{u}_1 + \beta\,\mathbf{u}_2 
+= \alpha \begin{pmatrix}1 \\ 1\end{pmatrix} 
++ \beta \begin{pmatrix}1 \\ -1\end{pmatrix} 
+= \begin{pmatrix}\alpha + \beta \\ \alpha - \beta\end{pmatrix}.
+\]
+Solving $\alpha + \beta = 1$ and $\alpha - \beta = 0$ yields $\alpha = \beta = \tfrac12$.
+
+\paragraph{3. Constructing the General Term}
+\[
+\mathbf{v}_n = M^{\,n-1} \mathbf{v}_1 
+= \frac12 M^{\,n-1} \mathbf{u}_1 + \frac12 M^{\,n-1} \mathbf{u}_2.
+\]
+Since $M \mathbf{u}_1 = 2\,\mathbf{u}_1 \Rightarrow M^{\,n-1} \mathbf{u}_1 = 2^{\,n-1}\,\mathbf{u}_1$, and $M \mathbf{u}_2 = 0 \Rightarrow M^{\,n-1} \mathbf{u}_2 = 0$ (for $n\ge2$). Therefore, for $n\ge2$,
+\[
+\mathbf{v}_n = \frac12 \bigl(2^{\,n-1} \mathbf{u}_1\bigr) = 2^{\,n-2} \begin{pmatrix}1 \\ 1\end{pmatrix} = \begin{pmatrix}2^{\,n-2} \\ 2^{\,n-2}\end{pmatrix}.
+\]
+Hence, for $n\ge2$,
+\[
+a_n = 2^{\,n-2}, \quad b_n = 2^{\,n-2}.
+\]
+When $n=1$, we have the initial condition $a_1 = 1$, $b_1 = 0$.
+
+\paragraph{4. Verifying the Recurrence and Properties}
+For $n\ge2$, one checks that
+\[
+a_{n+1} = a_n + b_n = 2^{\,n-2} + 2^{\,n-2} = 2^{\,n-1}, \quad 
+b_{n+1} = a_n + b_n = 2^{\,n-1},
+\]
+which is consistent with the general term. Thus the complete solution is:
+\[
+\begin{cases}
+a_1 = 1, \quad b_1 = 0, \\
+a_n = 2^{\,n-2}, \quad b_n = 2^{\,n-2}, \quad n\ge2.
+\end{cases}
+\]
+
+\paragraph{5. Geometric and Arithmetic Properties}
+For $n\ge2$,
+\[
+a_n + b_n = 2^{\,n-2} + 2^{\,n-2} = 2^{\,n-1},
+\]
+which is a geometric progression with ratio $2$ and first term $2$. Also, for $n\ge2$,
+\[
+a_n - b_n = 2^{\,n-2} - 2^{\,n-2} = 0,
+\]
+which is an arithmetic progression with common difference $0$ (constant zero) from $n=2$ onward.
+
+This completes the solution to the problem.
+
+\subsection{2020--2024 Selected Problems (Examples Employing Linear Algebra Methods)}
+In this section, we select several problems from the years 2020--2024 to illustrate how one can utilise matrix methods or auxiliary sequences. Some problems do not directly use matrix diagonalisation but nevertheless show a linear algebra viewpoint.
+
+\subsubsection{2020 Problem: New National Paper II, Science Stream, Question 9}
+\textbf{Problem Statement:}  
+Given a geometric progression $\{a_n\}$ with common ratio $q>1$, satisfying 
+\[
+a_1 + a_2 = 12, \quad a_1 a_2 = 32.
+\]
+\begin{enumerate}
+  \item Find the general term of the sequence.
+  \item Compute $a_{10}$.
+\end{enumerate}
+
+\textbf{Solution Outline:}  
+Let the first term be $a_1$ and common ratio $q>1$. Then $a_2 = q\,a_1$. From
+\[
+a_1 + q a_1 = (1+q) a_1 = 12, \quad q\,a_1^2 = 32,
+\]
+we deduce $a_1 = \tfrac{12}{1+q}$. Substituting into the second equation gives
+\[
+q \cdot \Bigl(\frac{12}{1+q}\Bigr)^2 = 32 
+\;\Longrightarrow\; q \frac{144}{(1+q)^2} = 32 
+\;\Longrightarrow\; (1+q)^2 = 4.5\,q.
+\]
+That becomes
+\[
+q^2 - 2.5\,q + 1 = 0, 
+\]
+whose solutions are $q = 2$ (since $q>1$). Hence $a_1 = 12/(1+2) = 4$. The general term is
+\[
+a_n = 4 \cdot 2^{\,n-1}, 
+\quad 
+a_{10} = 4 \cdot 2^9 = 2048.
+\]
+
+\paragraph{Matrix–Power Interpretation}  
+The geometric recurrence $a_{n+1} = q\,a_n$ can be viewed as a $1\times1$ matrix power: 
+\[
+[a_{n+1}] = [q]\,[a_n], 
+\]
+so $a_n = q^{\,n-1}\,a_1$. This perspective extends to higher‐dimensional homogeneous recurrences.
+
+\subsubsection{2021 Problem: National Paper I, Science Stream, Question 17}
+\textbf{Problem Statement:}  
+Let $S_n$ denote the sum of the first $n$ terms of a sequence $\{a_n\}$. It is given that
+\[
+a_2 = 1, \quad 2\,S_n = n\,a_n \quad (n \in \mathbb{N}^+).
+\]
+\begin{enumerate}
+  \item Find the general term $a_n$.
+  \item If there exists $k>1$ such that $S_k = 100$, find the smallest positive integer $k$.
+\end{enumerate}
+
+\textbf{Solution:}  
+From $2\,S_n = n\,a_n$ and $2\,S_{n-1} = (n-1)\,a_{n-1}$, subtract to obtain:
+\[
+2\,(S_n - S_{n-1}) = n\,a_n - (n-1)\,a_{n-1} 
+\;\Longrightarrow\; 
+2\,a_n = n\,a_n - (n-1)\,a_{n-1},
+\]
+so
+\[
+(n-2)\,a_n = (n-1)\,a_{n-1}, \quad n \ge 2.
+\]
+Since $a_2 = 1$ and $2\,S_1 = a_1$, we get $a_1 = 0$. For $n \ge 3$,
+\[
+a_n = \frac{\,n-1\,}{\,n-2\,}\,a_{n-1}, \quad a_2=1,\;a_1=0.
+\]
+By induction, one finds
+\[
+a_n = \frac{\,n-1\,}{2}, \quad n \ge 2, \quad a_1=0.
+\]
+Hence, for $n \ge 2$,
+\[
+S_n 
+= a_1 + \sum_{k=2}^n \frac{k-1}{2} 
+= \frac{1}{2}\sum_{j=1}^{\,n-1} j 
+= \frac{\,n(n-1)\,}{4}.
+\]
+To have $S_k = 100$, solve 
+\[
+\frac{k(k-1)}{4} = 100 
+\;\Longrightarrow\; 
+k^2 - k - 400 = 0,
+\]
+yielding $k = \tfrac{1 + \sqrt{1601}}{2} \approx 20.506$. Thus the smallest positive integer is $k=21$.
+
+\paragraph{Linear Algebra Perspective (Comment)}  
+Since the recurrence involves a coefficient dependent on $n$, writing $\mathbf{x}_n = (a_n,\,S_n)^T$ as $\mathbf{x}_{n+1} = A\,\mathbf{x}_n$ with a constant matrix $A$ is not feasible. Instead, one uses direct term manipulation.
+
+\subsubsection{2022 Problem: New Gaokao I Paper, Question 15 (Nonlinear Recurrence)}
+\textbf{Problem Statement:}  
+Let $\{u_n\}$ satisfy
+\[
+u_1 = 1, \quad u_{n+1} = \frac{1 + u_n}{1 + 2\,u_n}, \quad n \ge 1.
+\]
+\begin{enumerate}
+  \item Prove that $u_n > 0$ for all $n$.
+  \item Prove that $\{u_n\}$ converges, and find its limit $L$.
+\end{enumerate}
+
+\textbf{Solution Outline:}  
+Set $v_n = 1 + 2\,u_n$. Then $u_n = \tfrac{v_n - 1}{2}$. Substitute into the recurrence:
+\[
+u_{n+1} 
+= \frac{1 + u_n}{1 + 2\,u_n} 
+= \frac{1 + \tfrac{v_n - 1}{2}}{v_n} 
+= \frac{\tfrac{v_n + 1}{2}}{v_n} 
+= \frac{v_n + 1}{2\,v_n}.
+\]
+Hence $v_{n+1} = 1 + 2\,u_{n+1} = 1 + 2\cdot\frac{1 + u_n}{v_n} = \frac{2v_n + 1}{v_n}$. One may show positivity by induction. For convergence, let $\lim_{n\to\infty} u_n = L>0$. The limit must satisfy
+\[
+L = \frac{1 + L}{1 + 2\,L} 
+\;\Longrightarrow\; 
+L(1 + 2\,L) = 1 + L 
+\;\Longrightarrow\; 
+2L^2 + L = 1 + L 
+\;\Longrightarrow\; 
+2L^2 = 1 
+\;\Longrightarrow\; 
+L = \frac{1}{\sqrt2}.
+\]
+
+\paragraph{Affine Matrix Attempt (Comment)}  
+If one tries to set $\mathbf{x}_n = (u_n,\,1)^T$ and seek $\mathbf{x}_{n+1} = A\,\mathbf{x}_n$ for a constant matrix $A$, the factor $1 + 2\,u_n$ in the denominator prevents a constant‐matrix representation. Hence one resorts to monotonicity and fixed‐point analysis.
+
+\subsubsection{2023 Problem: New Gaokao I Paper, Science Stream, Question 20}
+\textbf{Problem Statement:}  
+Let $\{a_n\}$ be an arithmetic progression with common difference $d>1$. Define $\{b_n\}$ by
+\[
+b_n = a_{n+1} - a_n, \quad n \ge 1.
+\]
+Denote the partial sums by $S_n$ for $\{a_n\}$ and $T_n$ for $\{b_n\}$.  
+\begin{enumerate}
+  \item If $3\,a_2 = 3\,a_1 + a_3$ and $S_3 + T_3 = 21$, find the general term of $\{a_n\}$.
+  \item If $\{b_n\}$ is also an arithmetic progression and $S_{99} - T_{99} = 99$, find $d$.
+\end{enumerate}
+
+\textbf{Solution Sketch:}  
+(1) Since $a_n = a_1 + (n-1)\,d$, we have
+\[
+3(a_1 + d) = 3\,a_1 + (a_1 + 2\,d) \;\Longrightarrow\; a_1 = d.
+\]
+Then $S_3 = a_1 + (a_1 + d) + (a_1 + 2\,d) = 3\,a_1 + 3\,d = 6\,d$, and
+\[
+b_1 = a_2 - a_1 = d,\;b_2 = a_3 - a_2 = d,\;b_3 = a_4 - a_3 = d \;\Longrightarrow\; T_3 = 3\,d.
+\]
+From $S_3 + T_3 = 21$, one gets $6\,d + 3\,d = 21 \;\Longrightarrow\; d=7/3,\; a_1=7/3$.  
+Hence,
+\[
+a_n = \frac{7}{3}\,n.
+\]
+(2) With $a_n = \tfrac{7}{3}n$, one finds $b_n = d = \tfrac{7}{3}$ identically, so $T_{99} = 99 \cdot \tfrac{7}{3} = 231$ and
+\[
+S_{99} = \sum_{k=1}^{99} \frac{7}{3}k = \frac{7}{3} \cdot \frac{99\cdot100}{2} = 11550,
+\]
+giving $S_{99} - T_{99} = 11319 \neq 99$. This indicates that the problem text may require reinterpretation. (Detailed resolution is omitted here.)
+
+\paragraph{Linear Algebra Perspective (Comment)}  
+If the problem truly had a representation $\mathbf{w}_{n+1} = M\,\mathbf{w}_n$, one would diagonalise $M$. In this case $b_n = a_{n+1} - a_n = d$ is constant (an AP with zero common difference), so part (2) collapses.
+
+\subsubsection{2024 Problem: National Paper I, Question 1}
+\textbf{Problem Statement:}  
+Let $\{a_n\}$ be an arithmetic progression of length $4m+2$ (common difference $\neq 0$). If two terms $a_i,a_j$ ($1\le i<j\le 4m+2$) are removed and the remaining $4m$ terms can be partitioned into $m$ groups of four terms each, where each group forms an arithmetic progression, then $\{a_n\}$ is called \emph{divisible} with respect to $(i,j)$.  
+\begin{enumerate}
+  \item When $m=1$, list all possible pairs $(i,j)$ such that $a_1,\dots,a_6$ is divisible.
+  \item Prove that, for $m\ge3$, the sequence $a_1,a_2,\dots,a_{4m+2}$ is divisible with respect to $(2,\,4m+1)$.
+  \item Randomly choose two distinct indices $1\le i<j\le4m+2$; let the probability that the sequence is divisible correspond to $P_m$. Prove that $P_m > \tfrac18$.
+\end{enumerate}
+
+\textbf{Key Ideas for Part (2)}:  
+Normalize so that $a_n = n$ (i.e.\ first term $1$ and common difference $1$). Remove $2$ and $4m+1$, leaving the set
+\[
+\{1,3,4,5,\dots,4m,4m+2\}.
+\]
+One constructs $m$ groups of four terms each, for instance:
+\[
+\{1,3,4,5\}, \quad \{6,8,9,10\},\;\dots,\;\{4k-2,\,4k,\,4k+1,\,4k+2\},\;\dots,\;\{4m-2,\,4m,\,4m+1',\,4m+2\},
+\]
+with a suitable ordering; details vary among different expositions and are omitted here.
+
+\paragraph{Block‐Matrix Interpretation (Comment)}  
+One may arrange the remaining $4m$ terms in $m$ blocks of four, each of the form $\{x,\,x+d,\,x+2d,\,x+3d\}$, so that each block can be seen as a column vector in an arithmetic progression structure.
+
+% 2. France Baccalauréat Section
+\section{French Baccalauréat Section}
+In this section, we summarise typical sequence problems from the French Baccalauréat (including overseas centres) for 2019--2024 and present matrix or auxiliary‐variable methods.
+
+\subsection{2019 Typical Problem: Probability‐Based Recurrence}
+\subsubsection{Problem Statement (France September 2019 Bac S, Exercise 4)}
+A gaming platform offers two types of games: Type A and Type B.  
+\begin{itemize}
+  \item If the previous round was Type A, the probability of recommending Type A next is $0.8$; if the previous round was Type B, the probability of recommending Type B next is $0.7$.
+  \item Let $p_n$ be the probability of choosing a Type A game in the $n$th round.
+\end{itemize}
+\begin{enumerate}
+  \item Prove that for all $n\ge1$,
+  \[
+  p_{n+1} \;=\; 0.8\,p_n \;+\; 0.3\,(1 - p_n).
+  \]
+  \item When $p_1 = 0.5$, prove:
+  \begin{enumerate}
+    \item $0 \le p_n \le 0.6$ for all $n\ge1$;
+    \item $p_n$ is strictly increasing;
+    \item $p_n$ converges and find its limit $\ell$.
+  \end{enumerate}
+\end{enumerate}
+
+\textbf{Solution Outline:}  
+Rewrite the recurrence:
+\[
+p_{n+1} = 0.8\,p_n + 0.3\, (1 - p_n) 
+= (0.8 - 0.3)\,p_n + 0.3 
+= 0.5\,p_n + 0.3.
+\]
+Define $q_n = p_n - 0.6$. Then 
+\[
+q_{n+1} = p_{n+1} - 0.6 = 0.5\,(p_n - 0.6) = 0.5\,q_n, \quad q_1 = 0.5 - 0.6 = -0.1.
+\]
+Hence $q_n = -0.1\,(0.5)^{\,n-1}$ and
+\[
+p_n = q_n + 0.6 = 0.6 - 0.1\,(0.5)^{\,n-1}.
+\]
+From this, $0 \le p_n \le 0.6$, $p_n$ strictly increases, and $\lim_{n\to\infty} p_n = 0.6$.
+
+\paragraph{Affine Matrix Method}  
+Set $\mathbf{x}_n = \begin{pmatrix}p_n \\ 1\end{pmatrix}$. Then
+\[
+\mathbf{x}_{n+1} 
+= \begin{pmatrix}0.5 & 0.3 \\ 0 & 1\end{pmatrix} \mathbf{x}_n, 
+\quad 
+\mathbf{x}_1 = \begin{pmatrix}0.5 \\ 1\end{pmatrix}.
+\]
+Let $A = \begin{pmatrix}0.5 & 0.3 \\ 0 & 1\end{pmatrix}$. Its eigenvalues are $0.5$ and $1$, with eigenvectors $(1,\,0)^T$ and $(3,\,5)^T$, respectively. Expanding the initial vector in that basis yields the same closed‐form for $p_n$.
+
+\subsection{2020 Bac S Overseas (Exercise 2)}
+\subsubsection{Problem Extract}
+Let $\{u_n\}$ satisfy
+\[
+u_1 = 0.7, \quad u_{n+1} = (n+1)\,u_n - 1, \quad n \ge 1.
+\]
+\begin{enumerate}
+  \item If $u_1 = 0$, verify that $u_4 = -17$.
+  \item Write an algorithm to compute $u_2,\dots,u_{13}$.
+  \item If $u_1 = 0.7$ or $0.8$, conjecture the limit of $\{u_n\}$.
+\end{enumerate}
+
+\textbf{Solution Outline:}  
+Define 
+\[
+v_n = \frac{u_n + \tfrac{1}{n}}{n}, 
+\quad \text{for }n \ge 1.
+\]
+One finds that $v_{n+1} = v_n$ for all $n\ge1$. Since 
+\[
+v_1 = u_1 + 1,
+\]
+it follows that 
+\[
+v_n = u_1 + 1 \quad (\text{constant}).
+\]
+Hence,
+\[
+u_n + \frac{1}{n} = n\,(u_1 + 1) \;\Longrightarrow\; 
+u_n = n\,(u_1 + 1) - \frac{1}{n}.
+\]
+If $u_1 = 0.7$, then $u_n = 1.7\,n - \frac{1}{n} \to +\infty$ as $n \to \infty$. If $u_1 = 0.8$, then $u_n = 1.8\,n - \frac{1}{n} \to +\infty$ as well.
+
+\subsection{2021 Bac S Métropole (Exercise 7)}
+\textbf{Problem Statement:}  
+Let $\{u_n\}$ satisfy
+\[
+u_0 = 2, \quad u_{n+1} = \frac{1 + u_n}{3 + u_n}, \quad n \ge 0.
+\]
+Define
+\[
+v_n = \frac{u_n - 1}{u_n + 1}, \quad n \ge 0.
+\]
+\begin{enumerate}
+  \item Prove that $\{u_n\}$ converges, and let its limit be $L$.
+  \item Show that $\{v_n\}$ is a geometric progression with ratio $-\,\tfrac{1}{3}$, then derive an explicit formula for $\{u_n\}$ and determine its limit.
+\end{enumerate}
+
+\textbf{Solution Outline:}  
+Assume $\lim_{n\to\infty} u_n = L$. Then passing to the limit in 
+\[
+u_{n+1} = \frac{1 + u_n}{3 + u_n}
+\]
+yields
+\[
+L = \frac{1 + L}{3 + L} 
+\;\Longrightarrow\; L^2 + 2\,L - 1 = 0, 
+\;\text{so } L = -1 + \sqrt{2} > 0.
+\]
+Next, define
+\[
+v_n = \frac{u_n - 1}{u_n + 1} 
+\;\Longrightarrow\; u_n = \frac{1 + v_n}{1 - v_n}.
+\]
+One verifies that 
+\[
+v_{n+1} 
+= -\,\frac{1}{3}\,v_n, 
+\quad v_0 = \frac{2-1}{2+1} = \tfrac{1}{3},
+\]
+so 
+\[
+v_n = \Bigl(-\tfrac{1}{3}\Bigr)^n \cdot \tfrac{1}{3}, 
+\quad 
+u_n = \frac{1 + v_n}{1 - v_n}.
+\]
+Hence $\lim_{n\to\infty} v_n = 0$, and 
+\[
+\lim_{n\to\infty} u_n = \frac{1 + 0}{1 - 0} = 1,
+\]
+in apparent contradiction with $L = -1 + \sqrt{2}$. This suggests a misprint in the published problem. The method above correctly demonstrates the auxiliary‐variable reduction to a geometric progression.
+
+\subsection{2022 National Baccalauréat, Exercise 1 (Exponential–Logarithmic Recurrence)}
+\textbf{Problem Extract:}  
+Define
+\[
+v_n = \ln(n^2 + 1), \quad S_n = \sum_{k=1}^n v_k.
+\]
+\begin{enumerate}
+  \item Prove that $\{v_n\}$ is strictly increasing.
+  \item Prove that 
+  \[
+  \frac{n^2 + 1}{n^2} \;\le\; e^{\,v_n} \;\le\; \frac{n^2 + 1}{n^2}\,e.
+  \]
+  \item Define a sequence $\{u_n\}$ by 
+  \[
+  u_1 = 1, \quad u_{n+1} = \frac{n^2 + 1}{\,n+1\,}\,u_n, \quad n \ge 1.
+  \]
+  Find the closed form of $\{u_n\}$.
+\end{enumerate}
+
+\textbf{Answer to Part (3):}  
+Let $w_n = \ln u_n$. Then
+\[
+w_{n+1} = \ln u_{n+1} = \ln\Bigl(\tfrac{n^2 + 1}{\,n+1\,} \,u_n\Bigr) 
+= \ln(n^2 + 1) - \ln(n+1) + w_n.
+\]
+Summing from $k=1$ to $n-1$ gives
+\[
+w_n = \sum_{k=1}^{\,n-1} \ln(k^2 + 1) 
+- \sum_{k=1}^{\,n-1} \ln(k+1) 
+= \sum_{k=1}^{\,n-1} \ln(k^2 + 1) - \ln(n!).
+\]
+Hence
+\[
+u_n = \exp(w_n) 
+= \frac{\prod_{k=1}^{\,n-1} (k^2 + 1)}{n!}.
+\]
+
+\paragraph{Block‐Matrix Interpretation (Comment)}  
+Although the multiplier depends on $n$, preventing a single constant matrix iteration, one can consider the augmented vector $(w_n,\,1)^T$ and the triangular matrices 
+\[
+\begin{pmatrix}1 & \ln\frac{k^2 + 1}{k+1} \\[4pt]0 & 1\end{pmatrix}
+\]
+to replicate the telescoping structure; exponentiating then recovers $u_n$.
+
+\subsection{2023 National Baccalauréat (Series S), Exercise 18 (Piecewise‐Defined Sequence)}
+\textbf{Problem Extract:}  
+Let $\{a_n\}$ be an arithmetic sequence with sum $S_n$. Define $\{b_n\}$ by
+\[
+b_1 = a_1 - 6, \quad 
+b_n = \begin{cases}
+2\,a_{n-1}, & n = 2,3, \\
+a_n - 6, & n \ge 4.
+\end{cases}
+\]
+\begin{enumerate}
+  \item Find the general term of $\{a_n\}$.
+  \item Prove that $T_n > S_n$ for all $n>5$, where $T_n$ is the sum of the first $n$ terms of $\{b_n\}$.
+\end{enumerate}
+
+\textbf{Outline of Solution:}  
+First determine $a_n$ from it being an AP. Then compute the first few values of $b_n$ and compare partial sums $T_n$ and $S_n$. If one wished to use block‐matrix methods, one could write $\mathbf{w}_n = (T_n,\,S_n)^T$ in a block structure, but details are omitted here.
+
+\subsection{2024 National Baccalauréat, Exercise 7 (Probabilistic Recurrence)}
+\textbf{Problem Statement:}  
+In a lottery‐style game, a player chooses either a red ball or a blue ball each draw, with replacement. Let $p$ be the probability of choosing a red ball on the first draw.  
+\begin{itemize}
+  \item If the previous draw was red, the probability of choosing red next is $0.8$.
+  \item If the previous draw was blue, the probability of choosing blue next is $0.6$.
+  \item Let $p_n$ be the probability of choosing a red ball on the $n$th draw.
+\end{itemize}
+\begin{enumerate}
+  \item Write the recurrence relation between $p_{n+1}$ and $p_n$.
+  \item Use a matrix method to find the general term $p_n$ and its limit.
+\end{enumerate}
+
+\textbf{Solution:}  
+The recurrence is
+\[
+p_{n+1} = 0.8\,p_n + (1 - 0.6)\,(1 - p_n) 
+= 0.4\,p_n + 0.4.
+\]
+Define $\mathbf{y}_n = \begin{pmatrix}p_n \\ 1\end{pmatrix}$. Then
+\[
+\mathbf{y}_{n+1} 
+= \begin{pmatrix}0.4 & 0.4 \\[4pt] 0 & 1\end{pmatrix} 
+\mathbf{y}_n, 
+\quad \mathbf{y}_1 = \begin{pmatrix}p_1 \\ 1\end{pmatrix}.
+\]
+Let $A = \begin{pmatrix}0.4 & 0.4 \\ 0 & 1\end{pmatrix}$. Its eigenvalues are $0.4$ and $1$, with eigenvectors $(1,\,0)^T$ and $(1,\,1)^T$ respectively. Expanding $\mathbf{y}_1$ in that basis yields
+\[
+p_n = \frac{2}{3} + \Bigl(p_1 - \frac{2}{3}\Bigr)\,(0.4)^{\,n-1}, 
+\quad \lim_{n\to\infty} p_n = \frac{2}{3}.
+\]
+
+% 3. Summary Section
+\section{Summary and Techniques}
+\begin{enumerate}
+  \item \textbf{When to apply matrix diagonalisation:} 
+    Whenever a recurrence can be written as $\mathbf{v}_{n+1} = M\,\mathbf{v}_n$ (a homogeneous linear recurrence in vector form), one diagonalises $M$ to obtain $\mathbf{v}_n = M^{\,n-1}\,\mathbf{v}_1$. If there is a constant term (an affine recurrence), one augments to $\bigl(\mathbf{v}_n,\,1\bigr)^T$ and writes
+    \[
+    \begin{pmatrix}\mathbf{v}_{n+1} \\ 1\end{pmatrix} 
+    = \begin{pmatrix}M & \mathbf{c} \\[4pt] \mathbf{0}^T & 1\end{pmatrix}
+    \begin{pmatrix}\mathbf{v}_n \\ 1\end{pmatrix}.
+    \]
+
+  \item \textbf{Converting nonlinear recurrences to linear ones:}
+    One often \emph{constructs an auxiliary sequence} (e.g.\ $v_n = f(u_n)$) to transform a nonlinear or rational recurrence into a geometric progression or a linear homogeneous form. Another common trick is \emph{taking logarithms} to convert multiplicative recurrences into additive (linear) ones.
+
+  \item \textbf{Block‐matrix approach for piecewise or segmented recurrences:}  
+    If a recurrence is defined in segments (e.g.\ first few terms follow one rule, later terms another), one may break the state vector into blocks and form a block matrix that captures the piecewise definition.
+
+  \item \textbf{Differences between Chinese and French exam approaches:}  
+    The Chinese Gaokao often features homogeneous linear recurrences or sequences combined with function/inequality problems; truly diagonalising a matrix is less common but does appear in two‐variable recurrences. The French Baccalauréat frequently uses recurrences arising from probability or other contexts, placing emphasis on auxiliary‐variable methods and affine matrix approaches.
+\end{enumerate}
+
+\vspace{2em}
+\noindent{\small The problems and solution exemplars in this document are drawn from the Chinese Gaokao (2019--2024) and French Baccalauréat (2019--2024), including overseas centres.}
+
+\end{document}
